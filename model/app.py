@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-loaded_model = joblib.load('../mlflow/model/data/MLmodel.pkl')
+loaded_model = joblib.load('model.pkl')
 labels = ['BACKGROUND', 'CONCLUSIONS', 'METHODS', 'OBJECTIVE', 'RESULTS']
 
 
@@ -50,7 +50,6 @@ def transform_and_predict(text_to_predict: str) -> str:
 
 @app.route('/skilite')
 def predict():
-    # Get the text data from the request
     logger.info(f'*******************************')
     try:
         logger.info(f'here1: {request.json}')
@@ -63,14 +62,9 @@ def predict():
     prediction_out = transform_and_predict(text)
     logger.info('here3')
 
-    # Use your NLP model to make predictions
-    # Example:
-    # prediction = nlp_model.predict(text)
-
-    # Return the prediction as JSON
     return jsonify({'prediction': prediction_out})
 
 
 if __name__ == '__main__':
     logger.info('here0')
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
